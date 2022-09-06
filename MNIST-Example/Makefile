@@ -1,0 +1,107 @@
+OPENCV=0
+OPENMP=0
+DEBUG=0
+
+OBJ=main.o image.o args.o test.o matrix.o list.o data.o classifier.o net.o connected_layer.o activations.o arm_fully_connected_q7_opt.o\
+ arm_convolve_HWC_q7_basic.o arm_convolve_HWC_q7_fast.o arm_relu_q7.o arm_pool_q7_HWC.o arm_convolve_HWC_q7_RGB.o arm_softmax_q7.o arm_max_q7.o
+EXOBJ=test.o
+
+#CMSIS PATH
+# CMSIS_DIR := /Users/christosprofentzas/CMSIS-ML/CMSIS_5
+
+# INC=$($(CMSIS_DIR)/CMSIS/DSP/Include/) 
+# INC_PARAMS=$(foreach d, $(INC), -I$d)
+
+
+# INC_PARAMS = -I$(CMSIS_DIR)/CMSIS/DSP/Include/
+
+INC=-I/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/DSP/Include/ \
+	-I/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/Core/Include \
+	-I/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Include \
+
+  
+
+# INC_FOLDERS += \
+#   $(CMSIS_DIR)/CMSIS/Core/Include \
+#   $(CMSIS_DIR)/CMSIS/DSP/Include \
+#   $(CMSIS_DIR)/CMSIS/NN/Include \
+# Include folders for nn of CMSIS
+# INC_FOLDERS += \
+#    \
+#    \
+#    \
+
+
+# HEADER = $(CMSIS_DIR)/CMSIS/DSP/Include/arm_math.h
+
+
+
+
+
+
+VPATH=./src/:./::/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Source/ConvolutionFunctions/\
+	:/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Source/FullyConnectedFunctions/\
+	:/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Source/ActivationFunctions/\
+	:/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Source/SoftmaxFunctions/\
+	:/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Source/Source/Source/NNSupportFunction\
+	:/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Source/PoolingFunctions/\
+	:/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/DSP/Source/StatisticsFunctions/
+
+
+EXEC=microTL
+SLIB=lib${EXEC}.so
+ALIB=lib${EXEC}.a
+OBJDIR=./obj/
+
+CC=gcc
+AR=ar
+ARFLAGS=rcs
+OPTS=-Ofast
+LDFLAGS= -lm -pthread 
+COMMON= -Iinclude/ -Isrc/ 
+CFLAGS=$(INC) -Wall -Wextra -Wno-unknown-pragmas -Wshift-overflow -ggdb3 -fPIC
+
+ifeq ($(OPENMP), 1) 
+CFLAGS+= -fopenmp
+endif
+
+ifeq ($(DEBUG), 1) 
+OPTS=-O0 -g
+COMMON= -Iinclude/ -Isrc/ 
+endif
+
+CFLAGS+=$(OPTS)
+
+ifeq ($(OPENCV), 1) 
+COMMON+= -DOPENCV
+CFLAGS+= -DOPENCV
+LDFLAGS+= `pkg-config --libs opencv` 
+COMMON+= `pkg-config --cflags opencv` 
+endif
+
+EXOBJS = $(addprefix $(OBJDIR), $(EXOBJ))
+OBJS = $(addprefix $(OBJDIR), $(OBJ))
+DEPS = $(wildcard src/*.h) Makefile 
+
+all: obj $(SLIB) $(ALIB) $(EXEC)
+
+$(EXEC): $(EXOBJS) $(OBJS)
+	$(CC) $(COMMON) $(CFLAGS) $^ -o $@ $(LDFLAGS) 
+
+$(ALIB): $(OBJS)
+	$(AR) $(ARFLAGS) $@ $^
+
+$(SLIB): $(OBJS)
+	$(CC) $(CFLAGS) -shared $^ -o $@ $(LDFLAGS)
+
+$(OBJDIR)%.o: %.c $(DEPS)
+	$(CC) $(COMMON) $(CFLAGS) -c $< -o $@
+
+obj:
+	mkdir -p obj
+
+.PHONY: clean
+
+clean:
+	rm -rf $(OBJS) $(SLIB) $(ALIB) $(EXEC) $(EXOBJS) $(OBJDIR)
+
