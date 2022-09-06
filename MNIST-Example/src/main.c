@@ -11,7 +11,9 @@
 #include "args.h"
 
 // CMSIS Libs
-#include "arm_math.h"
+// #include "arm_math.h"
+// #include "arm_nn_math_types.h"
+
 #include "arm_nnfunctions.h"
 
 //Train images
@@ -59,7 +61,7 @@ void fc_2l_network_init(net * fully_con, int input_f_layer, int out_f_layer );
 int main(void)
 {
 
-     FILE* fp ;
+    //  FILE* fp ;
     //initialize the random function
     //seed with time in microseconds (works with Unix systems)
     struct timeval t1;
@@ -226,17 +228,17 @@ uint32_t network(q7_t* input)
 		// 				  fc1_out,  fc_buffer);
     
 
-        arm_softmax_q7(fc1_out, INTERFACE_OUT, y_out);
+        // arm_softmax_q7(fc1_out, INTERFACE_OUT, y_out);
 
 
-        uint32_t index[1];
-        q7_t result[1];
-        uint32_t blockSize = sizeof(y_out);
+        // uint32_t index[1];
+        // q7_t result[1];
+        // uint32_t blockSize = sizeof(y_out);
 
-        arm_max_q7(y_out, blockSize, result, index);
-        //printf("Classified class %i\n", index[0]);
+        // arm_max_q7(y_out, blockSize, result, index);
+        // //printf("Classified class %i\n", index[0]);
 
-        return index[0];
+        // return index[0];
 }
 
 

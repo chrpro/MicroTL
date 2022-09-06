@@ -15,9 +15,9 @@ EXOBJ=test.o
 
 # INC_PARAMS = -I$(CMSIS_DIR)/CMSIS/DSP/Include/
 
-INC=-I/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/DSP/Include/ \
-	-I/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/Core/Include \
-	-I/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Include \
+INC=-I../CMSIS/CMSIS/DSP/Include/ \
+	-I../CMSIS/CMSIS/Core/Include \
+	-I../CMSIS/CMSIS/NN/Include \
 
   
 
@@ -39,13 +39,13 @@ INC=-I/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/DSP/Include
 
 
 
-VPATH=./src/:./::/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Source/ConvolutionFunctions/\
-	:/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Source/FullyConnectedFunctions/\
-	:/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Source/ActivationFunctions/\
-	:/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Source/SoftmaxFunctions/\
-	:/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Source/Source/Source/NNSupportFunction\
-	:/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/NN/Source/PoolingFunctions/\
-	:/Users/christosprofentzas/CMSIS-ML/CMSIS-updated/CMSIS_5/CMSIS/DSP/Source/StatisticsFunctions/
+VPATH=./src/:./:../CMSIS/CMSIS/NN/Source/ConvolutionFunctions/\
+	:../CMSIS/CMSIS/NN/Source/FullyConnectedFunctions/\
+	:../CMSIS/CMSIS/Source/ActivationFunctions/\
+	:../CMSIS/CMSIS/CMSIS/NN/Source/SoftmaxFunctions/\
+	:../CMSIS/CMSIS/NN/Source/Source/Source/NNSupportFunction\
+	:../CMSIS/CMSIS/NN/Source/PoolingFunctions/\
+	:../CMSIS/CMSIS/DSP/Source/StatisticsFunctions/
 
 
 EXEC=microTL
