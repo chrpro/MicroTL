@@ -3,7 +3,7 @@ OPENMP=0
 DEBUG=0
 
 OBJ=main.o image.o args.o test.o matrix.o list.o data.o classifier.o net.o connected_layer.o activations.o arm_fully_connected_q7_opt.o\
- arm_convolve_HWC_q7_basic.o arm_convolve_HWC_q7_fast.o arm_relu_q7.o arm_pool_q7_HWC.o arm_convolve_HWC_q7_RGB.o arm_softmax_q7.o arm_max_q7.o
+ arm_convolve_HWC_q7_basic.o arm_convolve_HWC_q7_fast.o arm_relu_q7.o arm_pool_q7_HWC.o arm_convolve_HWC_q7_RGB.o arm_softmax_q7.o
 EXOBJ=test.o
 
 #CMSIS PATH
@@ -41,8 +41,8 @@ INC=-I../CMSIS/CMSIS/DSP/Include/ \
 
 VPATH=./src/:./:../CMSIS/CMSIS/NN/Source/ConvolutionFunctions/\
 	:../CMSIS/CMSIS/NN/Source/FullyConnectedFunctions/\
-	:../CMSIS/CMSIS/Source/ActivationFunctions/\
-	:../CMSIS/CMSIS/CMSIS/NN/Source/SoftmaxFunctions/\
+	:../CMSIS/CMSIS/NN/Source/ActivationFunctions/\
+	:../CMSIS/CMSIS/NN/Source/SoftmaxFunctions/\
 	:../CMSIS/CMSIS/NN/Source/Source/Source/NNSupportFunction\
 	:../CMSIS/CMSIS/NN/Source/PoolingFunctions/\
 	:../CMSIS/CMSIS/DSP/Source/StatisticsFunctions/
